@@ -31,7 +31,7 @@ export class ReceiptService {
     y += 10;
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Cashier: ${receiptData?.cashier ||'N/A'}`, 20, y);
+    doc.text(`Cashier: ${receiptData?.cashier || 'N/A'}`, 20, y);
     doc.text(
       `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
       140,
@@ -93,6 +93,26 @@ export class ReceiptService {
     doc.setFont('helvetica', 'normal');
     doc.text('Cash:', 20, y);
     doc.text(`${receiptData.cash.toFixed(2)}`, 170, y, { align: 'right' });
+
+    // Calculate change or amount due
+    const change = receiptData.cash - totalWithGST;
+    let changeText = '';
+
+    if (change >= 0) {
+      changeText = `Change`;
+    } else {
+      changeText = `Amount Due`;
+    }
+
+    // Add Change or Amount Due field
+    y += 6;
+    doc.text(changeText, 20, y);
+    doc.text(
+      `${change >= 0 ? change.toFixed(2) : Math.abs(change).toFixed(2)}`,
+      170,
+      y,
+      { align: 'right' }
+    );
 
     // Footer
     y += 10;
