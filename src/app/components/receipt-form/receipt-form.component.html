@@ -5,7 +5,7 @@
       <!-- Cashier Name -->
       <mat-form-field>
         <mat-label>Cashier Name</mat-label>
-        <input matInput  formControlName="cashier" />
+        <input matInput formControlName="cashier" />
       </mat-form-field>
 
       <!-- Items List -->
@@ -14,7 +14,7 @@
         <div [formGroupName]="i" class="item">
           <mat-form-field>
             <mat-label>Item Name</mat-label>
-            <input matInput  formControlName="name" />
+            <input matInput formControlName="name" />
           </mat-form-field>
           <mat-form-field>
             <mat-label>Price</mat-label>
@@ -58,36 +58,19 @@
       <!-- Other Fields -->
       <mat-form-field class="sub-total">
         <mat-label>Subtotal</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="subtotal"
-          readonly
-        />
+        <input matInput type="number" formControlName="subtotal" readonly />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Loyalty Discount</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="loyaltyDiscount"
-        />
+        <input matInput type="number" formControlName="loyaltyDiscount" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>GST (%)</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="gstRate"
-        />
+        <input matInput type="number" formControlName="gstRate" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Cash Paid</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="cash"
-        />
+        <input matInput type="number" formControlName="cash" />
       </mat-form-field>
 
       <!-- Generate Receipt Button -->

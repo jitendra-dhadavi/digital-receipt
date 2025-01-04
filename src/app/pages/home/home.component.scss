@@ -1,10 +1,28 @@
-.home-page{
-    .img-container{
-        height: 200px;
-        width: 200px;
-        img{
-            height: inherit;
-            width: inherit;
-        }
+.home-page {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 2rem;
+    gap: 12px;
+    .logo-container {
+      height: 60px;
+      width: 60px;
+      img {
+        height: inherit;
+        width: inherit;
+      }
     }
+    .heading{
+      margin-block-end: 0;
+    }
+  }
+  .img-container {
+    height: 200px;
+    width: 200px;
+    img {
+      height: inherit;
+      width: inherit;
+    }
+  }
 }
