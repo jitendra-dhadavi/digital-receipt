@@ -1,4 +1,4 @@
-export enum AUTH {
-  LOGIN = '/login',
-  SIGN_UP = '/signup',
-}
+export const API_END_POINT = {
+  LOGIN: '/login',
+  SIGN_UP: '/signup',
+} as const;

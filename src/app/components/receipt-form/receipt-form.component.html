@@ -1,0 +1,46 @@
+<div class="receipt-form">
+  <mat-card class="card">
+    <mat-card-title class="card-title">Receipt Details</mat-card-title>
+    <form [formGroup]="receiptForm" (ngSubmit)="generateReceipt()" class="form">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Customer Name"
+          formControlName="customerName"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Item Description"
+          formControlName="itemDescription"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="number"
+          placeholder="Quantity"
+          formControlName="quantity"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="number"
+          placeholder="Amount"
+          formControlName="amount"
+        />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="submit-btn"
+      >
+        Generate Receipt
+      </button>
+    </form>
+  </mat-card>
+</div>
