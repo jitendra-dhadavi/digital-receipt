@@ -1,5 +1,5 @@
 .receipt-form {
-  max-width: 500px;
+  max-width: 700px;
   margin: 2rem auto;
   .card {
     padding: 1rem;
@@ -10,6 +10,17 @@
     .form {
       display: flex;
       flex-direction: column;
+      .add-item-btn{
+        width: 200px;
+        margin: 0.25rem auto;
+      }
+      .sub-total{
+        opacity: 0.5;
+      }
+      .item {
+        display: flex;
+        gap: 16px;
+      }
       .submit-btn {
         max-width: 200px;
         margin: auto;

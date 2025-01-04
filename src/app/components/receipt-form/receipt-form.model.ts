@@ -6,3 +6,6 @@ export const FORM = new FormGroup({
     amount: new FormControl(0, Validators.required),
     quantity: new FormControl(0, Validators.required)
   });
+
+
+  export type ReceiptFormValue = typeof FORM['value']

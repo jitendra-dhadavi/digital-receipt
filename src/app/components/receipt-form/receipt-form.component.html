@@ -2,41 +2,96 @@
   <mat-card class="card">
     <mat-card-title class="card-title">Receipt Details</mat-card-title>
     <form [formGroup]="receiptForm" (ngSubmit)="generateReceipt()" class="form">
+      <!-- Cashier Name -->
       <mat-form-field>
-        <input
-          matInput
-          placeholder="Customer Name"
-          formControlName="customerName"
-        />
+        <input matInput placeholder="Cashier Name" formControlName="cashier" />
       </mat-form-field>
-      <mat-form-field>
+
+      <!-- Items List -->
+      <div formArrayName="items">
+        @for (item of items.controls; track item;let i = $index) {
+
+        <div [formGroupName]="i" class="item">
+          <mat-form-field>
+            <input matInput placeholder="Item Name" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              placeholder="Price"
+              formControlName="price"
+              (change)="updateSubtotal()"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              placeholder="Discount (%)"
+              formControlName="discount"
+              (change)="updateSubtotal()"
+            />
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="items.controls.length === 1">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+
+      <button
+        mat-button
+        color="primary"
+        class="add-item-btn"
+        (click)="addItem()"
+        
+      >
+        + Add Item
+      </button>
+
+      <!-- Other Fields -->
+      <mat-form-field class="sub-total">
         <input
           matInput
-          placeholder="Item Description"
-          formControlName="itemDescription"
+          type="number"
+          placeholder="Subtotal"
+          formControlName="subtotal"
+          readonly
+          
         />
       </mat-form-field>
       <mat-form-field>
         <input
           matInput
           type="number"
-          placeholder="Quantity"
-          formControlName="quantity"
+          placeholder="Loyalty Discount"
+          formControlName="loyaltyDiscount"
         />
       </mat-form-field>
       <mat-form-field>
         <input
           matInput
           type="number"
-          placeholder="Amount"
-          formControlName="amount"
+          placeholder="GST (%)"
+          formControlName="gstRate"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="number"
+          placeholder="Cash Paid"
+          formControlName="cash"
         />
       </mat-form-field>
 
+      <!-- Generate Receipt Button -->
       <button
         mat-raised-button
         color="primary"
-        type="submit"
+        [disabled]="receiptForm.invalid"
+        (click)="generateReceipt()"
         class="submit-btn"
       >
         Generate Receipt
