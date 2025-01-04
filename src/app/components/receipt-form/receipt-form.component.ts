@@ -5,12 +5,18 @@ import { MatCardModule } from '@angular/material/card';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { ReceiptService } from '../../core/services/receipt.service';
 import { MatIconModule } from '@angular/material/icon';
+import {
+  createItemFormGroup,
+  RECEIPT_FORM,
+} from './receipt-form.model';
+import { ReceiptItem } from './receipt-form.type';
 
 @Component({
   selector: 'app-receipt-form',
@@ -27,43 +33,33 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ReceiptFormComponent implements OnInit {
   private readonly _receiptService = inject(ReceiptService);
-  private readonly _fb = inject(FormBuilder);
 
-  receiptForm!: FormGroup;
+  receiptForm = RECEIPT_FORM;
 
   ngOnInit(): void {
     this.initForm();
   }
 
   initForm() {
-    this.receiptForm = this._fb.group({
-      cashier: ['', Validators.required],
-      items: this._fb.array([]),
-      subtotal: ['', Validators.required],
-      loyaltyDiscount: ['', Validators.required],
-      gstRate: ['', Validators.required], // GST %
-      cash: ['', Validators.required],
-    });
-
     // Add predefined items
-    const items = [{ name: 'Item 1', price: '' }];
+    const items: ReceiptItem[] = [{ name: 'Item 1', price: 0 }];
 
     items.forEach((item) => this.addItem(item));
     this.updateSubtotal();
   }
 
-  get items() {
+  get items(): FormArray<
+    FormGroup<{
+      name: FormControl<string>;
+      price: FormControl<number>;
+      discount: FormControl<number>;
+    }>
+  > {
     return this.receiptForm.get('items') as FormArray;
   }
 
-  addItem(item?: any) {
-    this.items.push(
-      this._fb.group({
-        name: [item?.name || '', Validators.required],
-        price: [item?.price || '', Validators.required],
-        discount: [item?.discount || ''],
-      })
-    );
+  addItem(item?: ReceiptItem) {
+    this.items.push(createItemFormGroup(item));
     this.updateSubtotal();
   }
 
@@ -75,8 +71,8 @@ export class ReceiptFormComponent implements OnInit {
   updateSubtotal() {
     let subtotal = 0;
     this.items.controls.forEach((item) => {
-      const price = item.get('price')?.value || 0;
-      const discount = item.get('discount')?.value || 0;
+      const price = item.value.price || 0;
+      const discount = item.value.discount || 0;
       subtotal += price - (price * discount) / 100;
     });
     this.receiptForm.patchValue({ subtotal });
@@ -84,10 +80,8 @@ export class ReceiptFormComponent implements OnInit {
 
   generateReceipt() {
     if (this.receiptForm.valid) {
-      const currentDateTime = new Date().toLocaleString();
       const receiptData = {
-        ...this.receiptForm.value,
-        dateTime: currentDateTime,
+        ...this.receiptForm.getRawValue(),
       };
       this._receiptService.createReceipt(receiptData);
     }

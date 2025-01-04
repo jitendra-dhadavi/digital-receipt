@@ -4,36 +4,42 @@
     <form [formGroup]="receiptForm" (ngSubmit)="generateReceipt()" class="form">
       <!-- Cashier Name -->
       <mat-form-field>
-        <input matInput placeholder="Cashier Name" formControlName="cashier" />
+        <mat-label>Cashier Name</mat-label>
+        <input matInput  formControlName="cashier" />
       </mat-form-field>
 
       <!-- Items List -->
       <div formArrayName="items">
         @for (item of items.controls; track item;let i = $index) {
-
         <div [formGroupName]="i" class="item">
           <mat-form-field>
-            <input matInput placeholder="Item Name" formControlName="name" />
+            <mat-label>Item Name</mat-label>
+            <input matInput  formControlName="name" />
           </mat-form-field>
           <mat-form-field>
+            <mat-label>Price</mat-label>
             <input
               matInput
               type="number"
-              placeholder="Price"
               formControlName="price"
               (change)="updateSubtotal()"
             />
           </mat-form-field>
           <mat-form-field>
+            <mat-label>Discount (%)</mat-label>
             <input
               matInput
               type="number"
-              placeholder="Discount (%)"
               formControlName="discount"
               (change)="updateSubtotal()"
             />
           </mat-form-field>
-          <button mat-icon-button color="warn" (click)="removeItem(i)" [disabled]="items.controls.length === 1">
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="removeItem(i)"
+            [disabled]="items.controls.length === 1"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>
@@ -45,43 +51,41 @@
         color="primary"
         class="add-item-btn"
         (click)="addItem()"
-        
       >
         + Add Item
       </button>
 
       <!-- Other Fields -->
       <mat-form-field class="sub-total">
+        <mat-label>Subtotal</mat-label>
         <input
           matInput
           type="number"
-          placeholder="Subtotal"
           formControlName="subtotal"
           readonly
-          
         />
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Loyalty Discount</mat-label>
         <input
           matInput
           type="number"
-          placeholder="Loyalty Discount"
           formControlName="loyaltyDiscount"
         />
       </mat-form-field>
       <mat-form-field>
+        <mat-label>GST (%)</mat-label>
         <input
           matInput
           type="number"
-          placeholder="GST (%)"
           formControlName="gstRate"
         />
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Cash Paid</mat-label>
         <input
           matInput
           type="number"
-          placeholder="Cash Paid"
           formControlName="cash"
         />
       </mat-form-field>

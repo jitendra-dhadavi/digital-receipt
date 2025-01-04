@@ -1,17 +1,21 @@
 import { jsPDF } from 'jspdf';
 import { Injectable } from '@angular/core';
 import { APP_CONFIG } from '../../configs/app.config';
+import {
+  ReceiptFormValue,
+  ReceiptItem,
+} from '../../components/receipt-form/receipt-form.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReceiptService {
-  createReceipt(receiptData: any) {
+  createReceipt(receiptData: ReceiptFormValue) {
     const doc = new jsPDF();
     let y = 20;
 
     // Title
-    doc.setFontSize(14);
+    doc.setFontSize(16);
     doc.setFont('helvetica', 'bold');
     doc.text(`${APP_CONFIG.receiptConfig.storeName}`, 105, y, {
       align: 'center',
@@ -25,7 +29,7 @@ export class ReceiptService {
     y += 15;
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.text('*** RECEIPT ***', 105, y, { align: 'center' });
+    doc.text('*** PURCHASE RECEIPT ***', 105, y, { align: 'center' });
 
     // Cashier & Date
     y += 10;
@@ -44,13 +48,13 @@ export class ReceiptService {
 
     // Items List
     y += 10;
-    receiptData.items.forEach((item: any, index: number) => {
+    receiptData.items!.forEach((item: ReceiptItem, index: number) => {
       doc.text(`${index + 1}. ${item.name}`, 20, y);
       doc.text(`${item.price.toFixed(2)}`, 170, y, { align: 'right' });
       y += 6;
       if (item.discount) {
         doc.text(
-          `DISC. ${item.discount}% (Special Promo) @  ${(
+          `DISC. ${item.discount}% (Promo) @  ${(
             item.price *
             (1 - item.discount / 100)
           ).toFixed(2)}`,
@@ -62,20 +66,20 @@ export class ReceiptService {
     });
 
     // GST Calculation
-    const gstAmount = (receiptData.gstRate / 100) * receiptData.subtotal;
+    const gstAmount = (receiptData.gstRate! / 100) * receiptData.subtotal!;
     const totalWithGST =
-      receiptData.subtotal + gstAmount - receiptData.loyaltyDiscount;
+      receiptData.subtotal! + gstAmount - receiptData.loyaltyDiscount!;
 
     // Subtotal, Discount & GST
     y += 5;
     doc.line(20, y, 190, y);
     y += 6;
     doc.text('Subtotal:', 20, y);
-    doc.text(`${receiptData.subtotal.toFixed(2)}`, 170, y, { align: 'right' });
+    doc.text(`${receiptData.subtotal!.toFixed(2)}`, 170, y, { align: 'right' });
 
     y += 6;
     doc.text('Loyalty Discount:', 20, y);
-    doc.text(`${receiptData.loyaltyDiscount.toFixed(2)}`, 170, y, {
+    doc.text(`${receiptData.loyaltyDiscount!.toFixed(2)}`, 170, y, {
       align: 'right',
     });
 
@@ -91,28 +95,17 @@ export class ReceiptService {
     // Payment Details
     y += 10;
     doc.setFont('helvetica', 'normal');
-    doc.text('Cash:', 20, y);
-    doc.text(`${receiptData.cash.toFixed(2)}`, 170, y, { align: 'right' });
+    doc.text('Cash Received:', 20, y);
+    doc.text(`${receiptData.cash!.toFixed(2)}`, 170, y, { align: 'right' });
 
     // Calculate change or amount due
-    const change = receiptData.cash - totalWithGST;
-    let changeText = '';
-
-    if (change >= 0) {
-      changeText = `Change`;
-    } else {
-      changeText = `Amount Due`;
-    }
+    const change = receiptData.cash! - totalWithGST;
+    let changeText = change >= 0 ? 'Change' : 'Amount Due';
 
     // Add Change or Amount Due field
     y += 6;
     doc.text(changeText, 20, y);
-    doc.text(
-      `${change >= 0 ? change.toFixed(2) : Math.abs(change).toFixed(2)}`,
-      170,
-      y,
-      { align: 'right' }
-    );
+    doc.text(`${Math.abs(change).toFixed(2)}`, 170, y, { align: 'right' });
 
     // Footer
     y += 10;
