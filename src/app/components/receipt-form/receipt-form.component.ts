@@ -12,6 +12,9 @@ import {
 } from '@angular/forms';
 import { ReceiptService } from '../../core/services/receipt.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CurrencyPipe } from '@angular/common';
 import {
   createItemFormGroup,
   RECEIPT_FORM,
@@ -27,6 +30,9 @@ import { ReceiptItem } from './receipt-form.type';
     MatCardModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatDividerModule,
+    MatTooltipModule,
+    CurrencyPipe
   ],
   templateUrl: './receipt-form.component.html',
   styleUrl: './receipt-form.component.scss',
@@ -76,6 +82,17 @@ export class ReceiptFormComponent implements OnInit {
       subtotal += price - (price * discount) / 100;
     });
     this.receiptForm.patchValue({ subtotal });
+  }
+
+  calculateTotal(): number {
+    const subtotal = this.receiptForm.get('subtotal')?.value || 0;
+    const loyaltyDiscount = this.receiptForm.get('loyaltyDiscount')?.value || 0;
+    const gstRate = this.receiptForm.get('gstRate')?.value || 0;
+
+    const totalAfterLoyalty = Math.max(0, subtotal - loyaltyDiscount);
+    const gstAmount = (totalAfterLoyalty * gstRate) / 100;
+    
+    return totalAfterLoyalty + gstAmount;
   }
 
   generateReceipt() {

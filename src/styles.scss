@@ -1,14 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
-:root{
-    --cyan: #e0fbfc;
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
-// background-color: var(--cyan);
-    background: linear-gradient(135deg, #6B46C1 0%, #9333EA 50%, #C026D3 100%);
+/* Global Styles & Theme */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #6366f1;
+  --secondary: #8b5cf6;
+  --accent: #d946ef;
+  --background-start: #0f172a;
+  --background-end: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-  .mdc-text-field--filled {
-        border-bottom-right-radius: 14px !important;
-        border-bottom-left-radius: 14px !important;
-      }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: radial-gradient(circle at top left, var(--background-start), var(--background-end));
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Material Design Overrides for Glassmorphism */
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mdc-text-field--filled {
+  border-radius: 12px !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--glass-border);
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before,
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+  border-bottom-color: var(--primary) !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.mat-mdc-input-element {
+  color: var(--text-primary) !important;
+}
+
+.mat-mdc-floating-label {
+  color: var(--text-secondary) !important;
+}
+
+.mdc-button, .mat-mdc-raised-button {
+  border-radius: 8px !important;
+  letter-spacing: 0.5px !important;
+  font-weight: 500 !important;
+  font-family: 'Outfit', sans-serif !important;
+}
