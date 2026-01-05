@@ -7,8 +7,8 @@ import { ReceiptFormComponent } from '../../components/receipt-form/receipt-form
   standalone: true,
   imports: [ReceiptFormComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  readonly APP_CONFIG = APP_CONFIG
+  readonly APP_CONFIG = APP_CONFIG;
 }
