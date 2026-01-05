@@ -1,13 +1,13 @@
 <div class="receipt-container">
   <form [formGroup]="receiptForm" class="pos-layout">
     <!-- LEFT PANEL: ITEMS & INPUTS -->
-    <div class="items-panel glass-card">
+    <div class="items-panel glass-card h-100">
       <div class="panel-header">
         <h2>🛒 Cart Details</h2>
         <div class="cashier-info">
           <mat-form-field appearance="fill" class="compact-input">
             <mat-label>Cashier Name</mat-label>
-            <mat-icon matPrefix>person</mat-icon>
+            <mat-icon matPrefix class="text-white">person</mat-icon>
             <input matInput formControlName="cashier" placeholder="John Doe" />
           </mat-form-field>
         </div>
@@ -70,7 +70,7 @@
     </div>
 
     <!-- RIGHT PANEL: SUMMARY & CHECKOUT -->
-    <div class="summary-panel glass-card">
+    <div class="summary-panel glass-card h-100">
       <div class="panel-header">
         <h2>🧾 Summary</h2>
       </div>
@@ -79,7 +79,7 @@
         <div class="summary-row">
           <span>Subtotal</span>
           <span class="value">{{
-            receiptForm.get("subtotal")?.value | currency
+            receiptForm.get("subtotal")?.value | currency : "INR"
           }}</span>
         </div>
 
@@ -88,7 +88,7 @@
         <div class="modifiers">
           <mat-form-field appearance="outline" class="modifier-input">
             <mat-label>Loyalty Disc.</mat-label>
-            <span matTextPrefix>-$</span>
+            <span matTextPrefix>₹</span>
             <input matInput type="number" formControlName="loyaltyDiscount" />
           </mat-form-field>
 
@@ -104,13 +104,15 @@
         <div class="summary-row total">
           <span>Total To Pay</span>
           <!-- Note: A real app would calculate the final total. For now, showing subtotal as placeholder or we can implement real total logic later. Visual only here. -->
-          <span class="value highlight">{{ calculateTotal() | currency }}</span>
+          <span class="value highlight">{{
+            calculateTotal() | currency : "INR"
+          }}</span>
         </div>
 
         <div class="payment-input">
           <mat-form-field class="full-width">
             <mat-label>Cash Received</mat-label>
-            <span matTextPrefix>$</span>
+            <span matTextPrefix>₹</span>
             <input matInput type="number" formControlName="cash" />
           </mat-form-field>
         </div>
